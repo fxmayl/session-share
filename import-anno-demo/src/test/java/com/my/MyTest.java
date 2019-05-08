@@ -8,7 +8,6 @@ package com.my;
 import com.my.config.Config;
 import com.my.service.UserService;
 import com.my.service.impl.UserServiceImpl;
-
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -27,7 +26,7 @@ public class MyTest {
         ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
         UserService userService = context.getBean(UserServiceImpl.class);
         userService.save(null);
-        ((AnnotationConfigApplicationContext)context).close();
+        ((AnnotationConfigApplicationContext) context).close();
     }
 
     /**
@@ -83,7 +82,7 @@ public class MyTest {
     /**
      * 插入排序:通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。
      * ------> 一般来说，插入排序都采用in-place在数组上实现。具体算法描述如下：
-     *
+     * <p>
      * ------> 从第一个元素开始，该元素可以认为已经被排序；
      * ------> 取出下一个元素，在已经排序的元素序列中从后向前扫描；
      * ------> 如果该元素（已排序）大于新元素，将该元素移到下一位置；
@@ -127,7 +126,7 @@ public class MyTest {
         int array[] = new int[]{3, 44, 38, 2, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48};
         int size = array.length;
 
-        for (int gap = (int)Math.floor(size / 2); gap > 0; gap = (int)Math.floor(gap / 2)) {
+        for (int gap = (int) Math.floor(size / 2); gap > 0; gap = (int) Math.floor(gap / 2)) {
             for (int i = gap; i < size; i++) {
                 int j = i;
                 int current = array[i];
@@ -140,6 +139,9 @@ public class MyTest {
         }
         print(array);
     }
+
+
+
 
     private void print(int[] array) {
         for (int i = 0; i < array.length; i++) {
