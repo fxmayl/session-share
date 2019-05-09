@@ -21,7 +21,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  * @department 产品研发中心
  * @date 2019年05月07日 09:37
  */
-public class MyTest {
+public class MyTestInno {
     @Test
     public void test() {
         ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
@@ -139,6 +139,65 @@ public class MyTest {
             }
         }
         print(array);
+    }
+
+    /**
+     * 归并排序:建立在归并操作上的一种有效的排序算法。该算法是采用分治法（Divide and Conquer）
+     * 的一个非常典型的应用。将已有序的子序列合并，得到完全有序的序列；即先使每个子序列有序，
+     * 再使子序列段间有序。若将两个有序表合并成一个有序表，称为2-路归并。
+     * ------->算法:
+     * ------->把长度为n的输入序列分成两个长度为n/2的子序列；
+     * ------->对这两个子序列分别采用归并排序；
+     * ------->将两个排序好的子序列合并成一个最终的排序序列。
+     */
+    @Test
+    public void test5() {
+        int array[] = new int[]{3, 44, 38, 2, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48};
+        mergeSort(array);
+    }
+
+    private int[] mergeSort(int[] array) {
+        int size = array.length;
+        if (size < 2) {
+            print(array);
+        }
+        int middle = (int)Math.floor(size / 2);
+        int left[] = new int[middle];
+        int right[] = new int[size - middle];
+
+        for (int i = 0; i < size; i++) {
+            if (i < middle) {
+                left[i] = array[i];
+            } else {
+                right[i - middle] = array[i];
+            }
+        }
+        print(merge(left, right));
+        //        return merge(mergeSort(left), mergeSort(right));
+        return array;
+    }
+
+    private int[] merge(int[] left, int[] right) {
+        int leftIndex = 0;
+        int rightIndex = 0;
+        int index = 0;
+        int result[] = new int[left.length + right.length];
+
+        int length = result.length;
+        while (index < length) {
+            if (leftIndex < left.length && rightIndex < right.length) {
+                if (left[leftIndex] <= right[rightIndex]) {
+                    result[index] = left[leftIndex];
+                    leftIndex++;
+                } else {
+                    result[index] = right[rightIndex];
+                    rightIndex++;
+                }
+                index++;
+            }
+        }
+
+        return result;
     }
 
     private void print(int[] array) {
