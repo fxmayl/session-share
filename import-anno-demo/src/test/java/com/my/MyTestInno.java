@@ -8,6 +8,7 @@ package com.my;
 import com.my.config.Config;
 import com.my.service.UserService;
 import com.my.service.impl.UserServiceImpl;
+
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -26,7 +27,7 @@ public class MyTestInno {
         ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
         UserService userService = context.getBean(UserServiceImpl.class);
         userService.save(null);
-        ((AnnotationConfigApplicationContext) context).close();
+        ((AnnotationConfigApplicationContext)context).close();
     }
 
     /**
@@ -126,7 +127,7 @@ public class MyTestInno {
         int array[] = new int[]{3, 44, 38, 2, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48};
         int size = array.length;
 
-        for (int gap = (int) Math.floor(size / 2); gap > 0; gap = (int) Math.floor(gap / 2)) {
+        for (int gap = (int)Math.floor(size / 2); gap > 0; gap = (int)Math.floor(gap / 2)) {
             for (int i = gap; i < size; i++) {
                 int j = i;
                 int current = array[i];
@@ -171,6 +172,10 @@ public class MyTestInno {
                 right[i - middle] = array[i];
             }
         }
+        print(left);
+        System.out.println();
+        print(right);
+        System.out.println();
         print(merge(left, right));
         //        return merge(mergeSort(left), mergeSort(right));
         return array;
@@ -182,25 +187,20 @@ public class MyTestInno {
         int index = 0;
         int result[] = new int[left.length + right.length];
 
-        int length = result.length;
-        while (index < length) {
-            if (leftIndex < left.length && rightIndex < right.length) {
-                if (left[leftIndex] <= right[rightIndex]) {
-                    result[index] = left[leftIndex];
-                    leftIndex++;
-                } else {
-                    result[index] = right[rightIndex];
-                    rightIndex++;
-                }
-                index++;
+        int min = Math.min(left.length, right.length);
+        while (leftIndex <= min || rightIndex <= min) {
+            if (left[leftIndex] <= right[rightIndex]) {
+                result[index] = left[leftIndex];
+                leftIndex++;
+            } else {
+                result[index] = right[rightIndex];
+                rightIndex++;
             }
+            index++;
         }
 
         return result;
     }
-
-
-
 
     private void print(int[] array) {
         for (int i = 0; i < array.length; i++) {
