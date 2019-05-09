@@ -151,7 +151,7 @@ public class MyTestInno {
      */
     @Test
     public void test5() {
-        int array[] = new int[]{3, 44, 38, 2, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48};
+        int array[] = new int[]{3, 44, 38, 2, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48, 6, 12, 1, 0, 28};
         print(array);
         print(mergeSort(array));
 
