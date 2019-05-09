@@ -8,7 +8,6 @@ package com.my;
 import com.my.config.Config;
 import com.my.service.UserService;
 import com.my.service.impl.UserServiceImpl;
-
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -27,7 +26,7 @@ public class MyTestInno {
         ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
         UserService userService = context.getBean(UserServiceImpl.class);
         userService.save(null);
-        ((AnnotationConfigApplicationContext)context).close();
+        ((AnnotationConfigApplicationContext) context).close();
     }
 
     /**
@@ -127,7 +126,7 @@ public class MyTestInno {
         int array[] = new int[]{3, 44, 38, 2, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48};
         int size = array.length;
 
-        for (int gap = (int)Math.floor(size / 2); gap > 0; gap = (int)Math.floor(gap / 2)) {
+        for (int gap = (int) Math.floor(size / 2); gap > 0; gap = (int) Math.floor(gap / 2)) {
             for (int i = gap; i < size; i++) {
                 int j = i;
                 int current = array[i];
@@ -153,15 +152,24 @@ public class MyTestInno {
     @Test
     public void test5() {
         int array[] = new int[]{3, 44, 38, 2, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48};
-        mergeSort(array);
+        print(array);
+        print(mergeSort(array));
+
+//        2	2	3	4	5	15	19	26	27	36	38	44	46	47	48	50
     }
 
+    /**
+     * 归并排序时对数组进行二分
+     *
+     * @param array 数组
+     * @return
+     */
     private int[] mergeSort(int[] array) {
         int size = array.length;
         if (size < 2) {
-            print(array);
+            return array;
         }
-        int middle = (int)Math.floor(size / 2);
+        int middle = (int) Math.floor(size / 2);
         int left[] = new int[middle];
         int right[] = new int[size - middle];
 
@@ -172,39 +180,75 @@ public class MyTestInno {
                 right[i - middle] = array[i];
             }
         }
+        System.out.println("left数组:");
         print(left);
-        System.out.println();
+        System.out.println("right数组:");
         print(right);
-        System.out.println();
-        print(merge(left, right));
-        //        return merge(mergeSort(left), mergeSort(right));
-        return array;
+//        print(merge(left, right));
+        //对二分后的数组进行排序、合并
+        int[] merge = merge(mergeSort(left), mergeSort(right));
+        System.out.println("merge数组:");
+        print(merge);
+        return merge;
+//        return array;
     }
 
+    /**
+     * 归并排序时对二分后的数组进行排序、合并
+     *
+     * @param left  第一部分数组
+     * @param right 第二部分数组
+     * @return
+     */
     private int[] merge(int[] left, int[] right) {
         int leftIndex = 0;
         int rightIndex = 0;
         int index = 0;
         int result[] = new int[left.length + right.length];
 
-        int min = Math.min(left.length, right.length);
-        while (leftIndex <= min || rightIndex <= min) {
+        int length = result.length;
+        //对两部分数组进行比较大小然后排序，得到新的结果集，但是此时可能存在没有完全遍历完的数组
+        while (index < length) {
             if (left[leftIndex] <= right[rightIndex]) {
-                result[index] = left[leftIndex];
+                result[index++] = left[leftIndex];
                 leftIndex++;
+                if (leftIndex >= left.length) {
+                    break;
+                }
             } else {
-                result[index] = right[rightIndex];
+                result[index++] = right[rightIndex];
+                rightIndex++;
+                if (rightIndex >= right.length) {
+                    break;
+                }
+            }
+        }
+        //对于没有遍历完的数组，直接将剩余元素添加到结果集末尾，如果leftIndex达到left.length，表明left数组遍历完成
+        //则只需要将right数组未遍历完的元素添加到结果集末尾
+        if (leftIndex >= left.length && index < length) {
+            for (int i = index; i < length; i++) {
+                result[i] = right[rightIndex];
                 rightIndex++;
             }
-            index++;
+            return result;
         }
 
+        //否则如果rightIndex达到right.length，表明right数组遍历完成，则只需要将left数组未遍历完的元素添加到结果集末尾
+        if (rightIndex >= right.length && index < length) {
+            for (int i = index; i < length; i++) {
+                result[i] = left[leftIndex];
+                leftIndex++;
+            }
+            return result;
+        }
         return result;
+
     }
 
     private void print(int[] array) {
         for (int i = 0; i < array.length; i++) {
             System.out.print(array[i] + "\t");
         }
+        System.out.println();
     }
 }
