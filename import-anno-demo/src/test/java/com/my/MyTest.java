@@ -128,6 +128,7 @@ public class MyTest {
         int size = array.length;
 
         for (int gap = (int)Math.floor(size / 2); gap > 0; gap = (int)Math.floor(gap / 2)) {
+            //内部使用插入排序
             for (int i = gap; i < size; i++) {
                 int j = i;
                 int current = array[i];
