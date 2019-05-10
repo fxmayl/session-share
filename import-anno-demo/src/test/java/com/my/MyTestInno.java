@@ -8,6 +8,7 @@ package com.my;
 import com.my.config.Config;
 import com.my.service.UserService;
 import com.my.service.impl.UserServiceImpl;
+
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -26,7 +27,7 @@ public class MyTestInno {
         ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
         UserService userService = context.getBean(UserServiceImpl.class);
         userService.save(null);
-        ((AnnotationConfigApplicationContext) context).close();
+        ((AnnotationConfigApplicationContext)context).close();
     }
 
     /**
@@ -126,7 +127,7 @@ public class MyTestInno {
         int array[] = new int[]{3, 44, 38, 2, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48};
         int size = array.length;
 
-        for (int gap = (int) Math.floor(size / 2); gap > 0; gap = (int) Math.floor(gap / 2)) {
+        for (int gap = (int)Math.floor(size / 2); gap > 0; gap = (int)Math.floor(gap / 2)) {
             for (int i = gap; i < size; i++) {
                 int j = i;
                 int current = array[i];
@@ -151,11 +152,12 @@ public class MyTestInno {
      */
     @Test
     public void test5() {
-        int array[] = new int[]{3, 44, 38, 2, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48, 6, 12, 1, 0, 28};
+        int array[] =
+            new int[]{3, 44, 38, 2, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48, 6, 12, 1, 0, 28};
         print(array);
         print(mergeSort(array));
 
-//        2	2	3	4	5	15	19	26	27	36	38	44	46	47	48	50
+        //        2	2	3	4	5	15	19	26	27	36	38	44	46	47	48	50
     }
 
     /**
@@ -169,7 +171,7 @@ public class MyTestInno {
         if (size < 2) {
             return array;
         }
-        int middle = (int) Math.floor(size / 2);
+        int middle = (int)Math.floor(size / 2);
         int left[] = new int[middle];
         int right[] = new int[size - middle];
 
@@ -184,13 +186,13 @@ public class MyTestInno {
         print(left);
         System.out.println("right数组:");
         print(right);
-//        print(merge(left, right));
+        //        print(merge(left, right));
         //对二分后的数组进行排序、合并
         int[] merge = merge(mergeSort(left), mergeSort(right));
         System.out.println("merge数组:");
         print(merge);
         return merge;
-//        return array;
+        //        return array;
     }
 
     /**
@@ -243,6 +245,70 @@ public class MyTestInno {
         }
         return result;
 
+    }
+
+    /**
+     * 快速排序:通过一趟排序将待排记录分隔成独立的两部分，
+     * 其中一部分记录的关键字均比另一部分的关键字小，则可分别对这两部分记录继续进行排序，以达到整个序列有序。
+     * --------->算法:
+     * --------->从数列中挑出一个元素，称为 “基准”（pivot）；
+     * --------->重新排序数列，所有元素比基准值小的摆放在基准前面，所有元素比基准值大的摆在基准的后面
+     * （相同的数可以到任一边）。在这个分区退出之后，该基准就处于数列的中间位置。这个称为分区（partition）操作；
+     * --------->递归地（recursive）把小于基准值元素的子数列和大于基准值元素的子数列排序。
+     */
+    @Test
+    public void test6() {
+        //        int array[] = new int[]{3, 44, 38, 2, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48};
+        int array[] =
+            new int[]{7, 3, 44, 38, 2, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48, 6, 12, 1, 0, 28};
+
+        int size = array.length;
+        print(quickSort(array, 0, size));
+    }
+
+    /**
+     * 快速排序
+     *
+     * @param array      数组
+     * @param leftIndex  最左下标
+     * @param rightIndex 最右下标
+     * @return
+     */
+    private int[] quickSort(int[] array, int leftIndex, int rightIndex) {
+        if (leftIndex < rightIndex) {
+            int partitionIndex = partition(array, leftIndex, rightIndex);
+            quickSort(array, leftIndex, partitionIndex);
+            quickSort(array, partitionIndex + 1, rightIndex);
+        }
+        return array;
+    }
+
+    /**
+     * 获取数组中最小值下标，并与基准交换
+     *
+     * @param array      数组
+     * @param leftIndex  最左下标
+     * @param rightIndex 最右下标
+     * @return
+     */
+    private int partition(int[] array, int leftIndex, int rightIndex) {
+        int pivot = leftIndex;
+        int index = pivot + 1;
+
+        for (int i = index; i < rightIndex; i++) {
+            //获取数组中最小值下标，index表示最小值下标
+            if (array[i] < array[pivot]) {
+                int temp = array[i];
+                array[i] = array[index];
+                array[index] = temp;
+                index++;
+            }
+        }
+        //将最小值与基准做交换
+        int temp = array[pivot];
+        array[pivot] = array[index - 1];
+        array[index - 1] = temp;
+        return index - 1;
     }
 
     private void print(int[] array) {
