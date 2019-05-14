@@ -8,7 +8,6 @@ package com.my;
 import com.my.config.Config;
 import com.my.service.UserService;
 import com.my.service.impl.UserServiceImpl;
-
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -27,7 +26,7 @@ public class MyTestInno {
         ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
         UserService userService = context.getBean(UserServiceImpl.class);
         userService.save(null);
-        ((AnnotationConfigApplicationContext)context).close();
+        ((AnnotationConfigApplicationContext) context).close();
     }
 
     /**
@@ -127,7 +126,7 @@ public class MyTestInno {
         int array[] = new int[]{3, 44, 38, 2, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48};
         int size = array.length;
 
-        for (int gap = (int)Math.floor(size / 2); gap > 0; gap = (int)Math.floor(gap / 2)) {
+        for (int gap = (int) Math.floor(size / 2); gap > 0; gap = (int) Math.floor(gap / 2)) {
             for (int i = gap; i < size; i++) {
                 int j = i;
                 int current = array[i];
@@ -153,7 +152,7 @@ public class MyTestInno {
     @Test
     public void test5() {
         int array[] =
-            new int[]{3, 44, 38, 2, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48, 6, 12, 1, 0, 28};
+                new int[]{3, 44, 38, 2, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48, 6, 12, 1, 0, 28};
         print(array);
         print(mergeSort(array));
 
@@ -171,7 +170,7 @@ public class MyTestInno {
         if (size < 2) {
             return array;
         }
-        int middle = (int)Math.floor(size / 2);
+        int middle = (int) Math.floor(size / 2);
         int left[] = new int[middle];
         int right[] = new int[size - middle];
 
@@ -260,7 +259,7 @@ public class MyTestInno {
     public void test6() {
         //        int array[] = new int[]{3, 44, 38, 2, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48};
         int array[] =
-            new int[]{7, 3, 44, 38, 2, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48, 6, 12, 1, 0, 28};
+                new int[]{7, 3, 44, 38, 2, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48, 6, 12, 1, 0, 28};
 
         int size = array.length;
         print(quickSort(array, 0, size));
@@ -310,6 +309,76 @@ public class MyTestInno {
         array[index - 1] = temp;
         return index - 1;
     }
+
+    /**
+     * 堆排序:指利用堆这种数据结构所设计的一种排序算法。堆积是一个近似完全二叉树的结构，
+     * 并同时满足堆积的性质：即子结点的键值或索引总是小于（或者大于）它的父节点。
+     * ------------>算法:
+     * ------------>将初始待排序关键字序列(R1,R2….Rn)构建成大顶堆，此堆为初始的无序区；
+     * ------------>将堆顶元素R[1]与最后一个元素R[n]交换，此时得到新的无序区(R1,R2,……Rn-1)和新的有序区(Rn),且满足R[1,2…n-1]<=R[n]；
+     * ------------>由于交换后新的堆顶R[1]可能违反堆的性质，因此需要对当前无序区(R1,R2,……Rn-1)调整为新堆，然后再次将R[1]与无序区最后一个元素交换，
+     * 得到新的无序区(R1,R2….Rn-2)和新的有序区(Rn-1,Rn)。不断重复此过程直到有序区的元素个数为n-1，则整个排序过程完成。
+     */
+    @Test
+    public void test7() {
+        int array[] = new int[]{3, 44, 38, 2, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48};
+        int size = array.length;
+
+        //建立大堆顶
+        for (int i = (int) Math.floor(size / 2); i >= 0; i--) {
+            heapify(array, i, size);
+        }
+        print(array);
+
+        for (int i = array.length - 1; i > 0; i--) {
+            swap(array, 0, i);
+            size--;
+            heapify(array, 0, size);
+        }
+
+        print(array);
+
+    }
+
+    /**
+     * 堆调整
+     *
+     * @param array 数组
+     * @param i     下标
+     */
+    private void heapify(int[] array, int i, int size) {
+        int lefft = 2 * i + 1;
+        int right = 2 * i + 2;
+        int largest = i;
+
+        if (lefft < size && array[lefft] > array[largest]) {
+            largest = lefft;
+        }
+
+        if (right < size && array[right] > array[largest]) {
+            largest = right;
+        }
+
+        if (largest != i) {
+            swap(array, i, largest);
+            heapify(array, largest, size);
+        }
+    }
+
+
+    /**
+     * 交换两个下标的值
+     *
+     * @param array 数组
+     * @param i     下标i
+     * @param j     下标j
+     */
+    private void swap(int[] array, int i, int j) {
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+
 
     private void print(int[] array) {
         for (int i = 0; i < array.length; i++) {
