@@ -6,10 +6,16 @@
 package com.my.controller;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -35,6 +41,17 @@ public class Client1Controller {
     public String getSession(HttpSession session) {
         return "当前项目端口为:" + port + "   当前sessionId为:" + session.getId() + "  获取姓名为:" +
             session.getAttribute("name");
+    }
+
+    @PostMapping("/test")
+    public String test(@RequestBody String province, HttpServletRequest request)
+        throws UnsupportedEncodingException {
+        System.out.println(request.getParameter("PROVINCE"));
+        System.out.println(request.getParameter("ABBREVIATION"));
+        System.out.println(request.getParameter("TENANTNAME"));
+        System.out.println(URLDecoder.decode(province, "UTF-8"));
+
+        return "{\"code\":1,\"tenantid\":19}";
     }
 
 }
