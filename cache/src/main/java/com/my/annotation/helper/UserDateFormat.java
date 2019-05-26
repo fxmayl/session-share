@@ -40,4 +40,9 @@ public class UserDateFormat extends DateFormat {
             throw new IllegalArgumentException("不正确的日期格式!");
         }
     }
+
+    @Override
+    public Object clone() {
+        return new UserDateFormat();
+    }
 }
