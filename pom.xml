@@ -10,6 +10,7 @@
         <module>easyexcel-demo</module>
         <module>import-anno-demo</module>
         <module>cache</module>
+        <module>mybatis</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
