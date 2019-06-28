@@ -5,6 +5,11 @@
 
 package com.my.tree;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import lombok.Data;
+
 /**
  * Description:TODO<BR>
  *
@@ -29,18 +34,25 @@ public class ReNewBinaryTree {
         int rootValue = pre[0];
         TreeNode root = new TreeNode(rootValue);
 
-        for (int k = 1; k < pre.length; k++) {
-            int rootValueIndex = 0;
-            for (int i = 0; i < in.length; i++) {
-                if (in[i] == rootValue) {
-                    rootValueIndex = i;
-                    break;
-                }
+        int rootValueIndex = 0;
+        List<Integer> leftArray = new ArrayList<>();
+        List<Integer> rightArray = new ArrayList<>();
+        for (int i = 0; i < in.length; i++) {
+            if (in[i] == rootValue) {
+                rootValueIndex = i;
+                break;
+            } else {
+                leftArray.add(in[i]);
             }
         }
+        for (int i = rootValueIndex + 1; i < in.length; i++) {
+            rightArray.add(in[i]);
+        }
+
         return root;
     }
 
+    @Data
     public class TreeNode {
         int val;
         TreeNode right;
