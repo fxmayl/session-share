@@ -19,7 +19,13 @@ import lombok.Data;
  * @date 2019年06月28日 17:01
  */
 public class ReNewBinaryTree {
-    public static TreeNode reConstructBinaryTree(int[] pre, int[] in) {
+    /**
+     * 自己写的实现
+     * @param pre
+     * @param in
+     * @return
+     */
+    public static TreeNode reConstructBinaryTreeSelf(int[] pre, int[] in) {
         if (pre == null || pre.length <= 0) {
             return new TreeNode(0);
         }
@@ -69,7 +75,19 @@ public class ReNewBinaryTree {
             rootLeftValue = (Integer)left.get(2);
             rootRightValue = rootLeftValue;
 
-            right(temp, inLeft, preLeft, rootRightValue);
+            if (inLeft.size() > 0 && preLeft.size() > 0) {
+                TreeNode leftNode = temp.left;
+                while (true) {
+                    if (leftNode.left != null) {
+                        leftNode = leftNode.left;
+                    } else {
+                        break;
+                    }
+                }
+                if (leftNode != null) {
+                    right(leftNode, inLeft, preLeft, rootRightValue);
+                }
+            }
 
             root = temp;
             inList = new ArrayList<>(inLeft);
@@ -90,7 +108,20 @@ public class ReNewBinaryTree {
             rootRightValue = (Integer)right.get(2);
             rootLeftValue = rootRightValue;
 
-            left(temp, inRight, preRight, rootLeftValue);
+            if (inRight.size() > 0 && preRight.size() > 0) {
+                TreeNode rightNode = temp.right;
+                while (true) {
+                    if (rightNode.right != null) {
+                        rightNode = rightNode.right;
+                    } else {
+                        break;
+                    }
+                }
+
+                if (rightNode != null) {
+                    left(rightNode, inRight, preRight, rootLeftValue);
+                }
+            }
 
             root = temp;
             inList = new ArrayList<>(inRight);
@@ -177,9 +208,46 @@ public class ReNewBinaryTree {
         return list;
     }
 
+    /**
+     * 其他人实现方法
+     *
+     * @param pre
+     * @param in
+     * @return
+     */
+    public static TreeNode reConstructBinaryTreeOther(int[] pre, int[] in) {
+        if (pre == null || in == null) {
+            return null;
+        }
+
+        java.util.HashMap<Integer, Integer> map = new java.util.HashMap<Integer, Integer>();
+        for (int i = 0; i < in.length; i++) {
+            map.put(in[i], i);
+        }
+        return preIn(pre, 0, pre.length - 1, in, 0, in.length - 1, map);
+    }
+
+    public static TreeNode preIn(int[] pre, int preIndex, int preLen, int[] in, int inIndex,
+        int inLen, java.util.HashMap<Integer, Integer> map) {
+
+        if (preIndex > preLen) {
+            return null;
+        }
+        TreeNode head = new TreeNode(pre[preIndex]);
+        int index = map.get(pre[preIndex]);
+        head.left =
+            preIn(pre, preIndex + 1, preIndex + index - inIndex, in, inIndex, index - 1, map);
+        head.right = preIn(pre, preIndex + index - inIndex + 1, preLen, in, index + 1, inLen, map);
+        return head;
+    }
+
     public static void main(String[] args) {
-        System.out.println(
-            reConstructBinaryTree(new int[]{1, 2, 3, 4, 5, 6, 7}, new int[]{3, 2, 4, 1, 6, 5, 7}));
+        TreeNode self = reConstructBinaryTreeSelf(new int[]{1, 2, 4, 7, 3, 5, 6, 8},
+            new int[]{4, 7, 2, 1, 5, 3, 8, 6});
+        System.out.println(self);
+        TreeNode other = reConstructBinaryTreeOther(new int[]{1, 2, 4, 7, 3, 5, 6, 8},
+            new int[]{4, 7, 2, 1, 5, 3, 8, 6});
+        System.out.println(other);
     }
 
     @Data
