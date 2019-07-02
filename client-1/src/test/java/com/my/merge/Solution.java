@@ -21,26 +21,73 @@ public class Solution {
         ListNode temp2 = list2;
 
         ListNode l = head;
-        while (temp.next != null) {
-            int i1 = temp.val;
+        while (true) {
+            if (temp2 != null) {
+                while (true) {
+                    int i2 = temp2.val;
+                    if (temp != null) {
+                        if (temp.val > i2) {
+                            l = new ListNode(i2);
+                            l.next = new ListNode(temp.val);
+                        } else {
+                            l = new ListNode(temp.val);
+                            l.next = new ListNode(i2);
+                        }
+                    } else {
+                        l = new ListNode(i2);
+                    }
 
-            while (temp2.next != null) {
-                int i2 = temp2.val;
-                if (i1 > i2) {
-                    l = new ListNode(i1);
-                } else {
-                    l = new ListNode(i2);
+                    if (head == null) {
+                        head = l;
+                    } else {
+                        ListNode te = head;
+                        while (true) {
+                            if (te.next != null) {
+                                te = te.next;
+                            } else {
+                                te.next = l;
+                                break;
+                            }
+                        }
+                    }
+                    l = l.next.next;
+                    temp2 = temp2.next;
+                    if (temp2 == null) {
+                        break;
+                    }
+                    if (temp != null) {
+                        if (temp.next != null) {
+                            break;
+                        }
+                    }
                 }
-                if (head == null) {
-                    head = l;
-                } else {
-                    head.next = l;
+            } else {
+                if (temp != null) {
+                    if (head != null) {
+                        ListNode te = head;
+                        while (true) {
+                            if (te.next != null) {
+                                te = te.next;
+                            } else {
+                                te.next = temp;
+                                break;
+                            }
+                        }
+                        break;
+                    } else {
+                        head = temp;
+                        break;
+                    }
                 }
-                l = l.next;
-                temp2 = temp2.next;
+            }
+            if (temp != null) {
+                temp = temp.next;
+                if (temp == null) {
+                    break;
+                }
+            } else {
                 break;
             }
-            temp = temp.next;
         }
 
         return head;
@@ -50,11 +97,11 @@ public class Solution {
         ListNode list1 = new ListNode(1);
         list1.next = new ListNode(3);
         list1.next.next = new ListNode(5);
-        ListNode list2 = new ListNode(2);
-        list2.next = new ListNode(4);
-        list2.next.next = new ListNode(6);
+//        ListNode list2 = new ListNode(2);
+//        list2.next = new ListNode(4);
+//        list2.next.next = new ListNode(6);
 
-        merge(list1, list2);
+        merge(list1, null);
     }
 
     public static class ListNode {
