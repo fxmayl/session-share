@@ -1,5 +1,10 @@
 package com.my.binary;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 /**
  * @author : fangxiaoming
  * @program : session-share
@@ -88,8 +93,23 @@ public class Solution {
     }
 
     public static void main(String[] args) {
-        System.out.println(numberOfOne(-1));
+//        System.out.println(numberOfOne(-1));
+//
+//        System.out.println(power(2,3));
 
-        System.out.println(power(2,3));
+        LinkedHashMap<Integer, String> map = new LinkedHashMap<>();
+        map.put(1,"h");
+        map.put(2,"e");
+        map.put(3,"l");
+        map.put(4,"l");
+        map.put(5,"o");
+
+        Iterator<Map.Entry<Integer, String>> iterator = map.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<Integer, String> next = iterator.next();
+            System.out.println(next.getKey() + "::::" + next.getValue());
+        }
+
+        new ArrayList<>(map.values());
     }
 }
