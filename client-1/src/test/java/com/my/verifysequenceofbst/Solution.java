@@ -26,63 +26,43 @@ public class Solution {
             return false;
         }
         ArrayList<Integer> list = new ArrayList<>();
-        for (int i = 0; i < sequence.length; i++) {
+        ArrayList<Integer> greatList = new ArrayList<>();
+        ArrayList<Integer> lessList = new ArrayList<>();
+
+        for (int i = sequence.length - 1; i >= 0; i--) {
             list.add(sequence[i]);
         }
 
-        ArrayList<Integer> temp = new ArrayList<>(list);
-
-        if (list.size() == 1) {
+        if (list.size() == 1 || list.size() == 2) {
             return true;
         }
 
-        if (list.size() == 2) {
-            return list.get(0) < list.get(1) || list.get(0) > list.get(1);
-        }
+        int root = list.get(0);
 
-        int index = 0;
-        boolean verify = true;
-        while (true) {
-            if (temp.size() - 1 - index <= 2) {
-                if (temp.get(temp.size() - 2) > temp.get(temp.size() - 1)) {
-                    if (temp.get(temp.size() - 3) < temp.get(temp.size() - 1)) {
-                        verify = true;
-                        break;
-                    } else {
-                        verify = false;
-                        break;
-                    }
+        return verify(list, root, greatList, lessList);
+    }
+
+    public boolean verify(ArrayList<Integer> list, int root, ArrayList<Integer> greatList, ArrayList<Integer> lessList) {
+        for (int i = 1; i < list.size(); i++) {
+            if (list.get(i) > root) {
+                if (greatList.size() != (i - 1)) {
+                    return false;
                 }
-            }
-            if (list.get(index) < list.get(index + 1) &&
-                list.get(index + 1) > list.get(index + 2)) {
-                verify = true;
-                index = index + 2;
-                list.addAll(temp.subList(index, temp.size()));
-            } else if (list.get(index) < list.get(index + 1) &&
-                list.get(index + 1) < list.get(index + 2)) {
-                verify = true;
-                index = index + 1;
-                list.addAll(temp.subList(index, temp.size()));
-            } else if (list.get(index) > list.get(index + 1) &&
-                list.get(index + 1) > list.get(index + 2)) {
-                verify = true;
-                index = index + 1;
-                list.addAll(temp.subList(index, temp.size()));
-            } else if (list.get(index) > list.get(index + 1) &&
-                list.get(index + 1) < list.get(index + 2)) {
-                verify = true;
-                index = index + 1;
-                list.addAll(temp.subList(index, temp.size()));
+                greatList.add(list.get(i));
             } else {
-                verify = false;
-            }
-
-            if (!verify) {
-                break;
+                if (lessList.size() != i - greatList.size() - 1) {
+                    return false;
+                }
+                lessList.add(list.get(i));
             }
         }
+        if (greatList != null && greatList.size() > 0) {
+            return verify(greatList, greatList.get(0), new ArrayList<>(), new ArrayList<>());
+        }
+        if (lessList != null && lessList.size() > 0) {
+            return verify(lessList, lessList.get(0), new ArrayList<>(), new ArrayList<>());
+        }
 
-        return verify;
+        return true;
     }
 }
