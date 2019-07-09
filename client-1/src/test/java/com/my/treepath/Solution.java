@@ -35,12 +35,14 @@ public class Solution {
         if (root == null) {
             return;
         }
+        //迭代循环时，当前循环中的值不会变为下一个循环得到的值，即当前循环的值不会被影响其他迭代循环或者被其他迭代循环影响
         sum += root.val;
 
         if (root.left == null && root.right == null) {
             if (sum == target) {
                 a1.add(root.val);
                 arr.add(new ArrayList<>(a1));
+                //去掉最后一个元素，相当于返回到了当前子树的父节点
                 a1.remove(a1.size() - 1);
 
             }
@@ -50,6 +52,7 @@ public class Solution {
         a1.add(root.val);
         path(root.left, target, arr, a1, sum);
         path(root.right, target, arr, a1, sum);
+        //当左右子树都遍历完成，去掉最后一个元素，相当于返回了树的上一层
         a1.remove(a1.size() - 1);
     }
 
