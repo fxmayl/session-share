@@ -12,7 +12,6 @@ import java.beans.Introspector;
 import java.beans.MethodDescriptor;
 import java.beans.PropertyDescriptor;
 import java.beans.PropertyEditor;
-import java.beans.PropertyEditorSupport;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.stream.Stream;
@@ -71,8 +70,16 @@ public class JavaBeansDemo {
                 });
                 propertyEditor.setAsText("2019-07-22 12:12:12");
             } else {
-                propertyDescriptor.setPropertyEditorClass(PropertyEditorSupport.class);
+                propertyDescriptor.setPropertyEditorClass(StringPropertyEditor.class);
                 PropertyEditor propertyEditor = propertyDescriptor.createPropertyEditor(user);
+                propertyEditor.addPropertyChangeListener(event -> {
+                    Method setMethod = propertyDescriptor.getWriteMethod();
+                    try {
+                        setMethod.invoke(user, ((PropertyEditor)event.getSource()).getValue());
+                    } catch (IllegalAccessException | InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                });
                 propertyEditor.setAsText("fxm");
             }
         });
