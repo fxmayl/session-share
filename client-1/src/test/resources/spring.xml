@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright: 浙报传媒控股集团有限公司版权所有
+  ~ Copyright (c) 2019, Copyright Zhejiang Daily Media Holding Group Co.,Ltd. All Rights Reserved.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="user" class="com.my.introspection.User">
+        <property name="id" value="9"/>
+        <property name="username" value="fxm"/>
+        <property name="birthday" value="2019-12-12 12:12:12"/>
+    </bean>
+
+    <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+        <property name="propertyEditorRegistrars">
+            <list>
+                <bean class="com.my.introspection.SpringPropertyEditorRegistrar"/>
+            </list>
+        </property>
+        <property name="customEditors">
+            <map>
+                <entry key="java.util.Date" value="com.my.introspection.DatePropertyEditor"/>
+            </map>
+        </property>
+    </bean>
+</beans>
