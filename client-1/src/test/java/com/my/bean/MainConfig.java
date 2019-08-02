@@ -18,6 +18,15 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class MainConfig {
+
+    /**
+     * 默认根据getBean("colorFactoryBean")获取到的是getObject()所返回的bean
+     *
+     *
+     * getBean("&colorFactoryBean")可以获得colorFactoryBean   bean
+     *
+     * @return
+     */
     @Bean
     public ColorFactoryBean colorFactoryBean() {
         return new ColorFactoryBean();
