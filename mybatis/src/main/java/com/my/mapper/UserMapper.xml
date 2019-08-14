@@ -16,4 +16,8 @@
     <select id="getAll" resultMap="userMap">
         SELECT * FROM user
     </select>
+
+    <select id="getUserById" resultMap="userMap">
+        SELECT * FROM user WHERE id = #{id}
+    </select>
 </mapper>

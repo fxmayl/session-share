@@ -8,6 +8,8 @@ package com.my.mapper;
 import com.my.domain.User;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.ResultMap;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -23,4 +25,9 @@ import java.util.List;
 public interface UserMapper {
 
     List<User> getAll();
+
+    /**同时使用@Select与xml时，抛出异常Mapped Statements collection already contains value for com.my.mapper.UserMapper.getUserById*/
+//    @Select("SELECT * FROM USER WHERE id = 1")
+//    @ResultMap("com.my.mapper.UserMapper.userMap")
+    User getUserById(int id);
 }
