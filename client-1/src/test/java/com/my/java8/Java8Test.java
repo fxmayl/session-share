@@ -72,24 +72,33 @@ public class Java8Test {
             return fruit1;
         }));
 
-        System.out.println(ttt(8));
+        ttt();
     }
 
-    private static int ttt(int i) {
-        TEST:
-        switch (i) {
-            case 1: {
-                break TEST;
+    private static void ttt() {
+        label1:
+        for (int i = 0; i < 10; i++) {
+            label2:
+            if (i > 0) {
+                if (i > 8) {
+                    break label1;
+                }
+                System.out.print(i + " ");
+                if (i > 3) {
+                    break label2;
+                }
+                System.out.print(" if end ");
+
             }
-            case 2: {
-                return 2;
+
+            label3: {
+                if (i > 5) {
+                    break label3;
+                }
+                System.out.print(", label3 block");
             }
-            default: {
-                i--;
-                break TEST;
-            }
+            System.out.println(", for end ");
         }
-        return i;
     }
 
     @FunctionalInterface
