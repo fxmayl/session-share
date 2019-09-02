@@ -72,6 +72,24 @@ public class Java8Test {
             return fruit1;
         }));
 
+        System.out.println(ttt(8));
+    }
+
+    private static int ttt(int i) {
+        TEST:
+        switch (i) {
+            case 1: {
+                break TEST;
+            }
+            case 2: {
+                return 2;
+            }
+            default: {
+                i--;
+                break TEST;
+            }
+        }
+        return i;
     }
 
     @FunctionalInterface
