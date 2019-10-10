@@ -34,15 +34,21 @@ public class AioServer {
             acg = AsynchronousChannelGroup.withThreadPool(execute);
             assc = AsynchronousServerSocketChannel.open(acg);
 
-            assc.bind(new InetSocketAddress("127.0.0.1", port), SelectionKey.OP_ACCEPT);
+            assc.bind(new InetSocketAddress("127.0.0.1", port));
             assc.accept(this, new AioCompletionHandler());
 
-        } catch (IOException e) {
+            Thread.sleep(Integer.MAX_VALUE);
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public AsynchronousServerSocketChannel getAssc() {
         return assc;
+    }
+
+    public static void main(String[] args) {
+        new AioServer(8765);
     }
 }

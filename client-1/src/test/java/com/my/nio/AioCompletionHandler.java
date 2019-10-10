@@ -8,6 +8,7 @@ package com.my.nio;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Description:TODO<BR>
@@ -56,19 +57,26 @@ public class AioCompletionHandler
 
         writeBuf.flip();
 
-        asc.write(writeBuf, writeBuf, new CompletionHandler<Integer, ByteBuffer>() {
-            @Override
-            public void completed(Integer result, ByteBuffer attachment) {
-                if (writeBuf.hasRemaining()) {
-                    asc.write(writeBuf, writeBuf, this);
-                }
-            }
-
-            @Override
-            public void failed(Throwable exc, ByteBuffer attachment) {
-                System.out.println(exc.getCause());
-            }
-        });
+//        asc.write(writeBuf, writeBuf, new CompletionHandler<Integer, ByteBuffer>() {
+//            @Override
+//            public void completed(Integer result, ByteBuffer attachment) {
+//                if (writeBuf.hasRemaining()) {
+//                    asc.write(writeBuf, writeBuf, this);
+//                }
+//            }
+//
+//            @Override
+//            public void failed(Throwable exc, ByteBuffer attachment) {
+//                System.out.println(exc.getCause());
+//            }
+//        });
+        try {
+            asc.write(writeBuf).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
