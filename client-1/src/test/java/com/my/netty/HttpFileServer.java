@@ -206,6 +206,12 @@ public class HttpFileServer {
                     throw new Error();
                 }
             }
+
+            if(!uri.startsWith(url))
+                return null;
+            if(!uri.startsWith("/"))
+                return null;
+
             uri = uri.replace('/', File.separatorChar);
 
             if (uri.contains(File.separator + '.') ||
