@@ -4,7 +4,17 @@
     <meta charset="UTF-8">
     <title>Index</title>
 </head>
+<script type="application/javascript">
+    function alert11() {
+        var value = document.getElementById("test").value;
+        var tt = '{"SOURCEID":"0","SRCNAME":"' + value + '"}'
+        var s = JSON.stringify(tt);
+
+        console.log(s);
+    }
+</script>
 <body>
 <p>Hello Socket</p>
+TEST:<input id="test" name="test" type="text" onblur="alert11()"/>
 </body>
 </html>
